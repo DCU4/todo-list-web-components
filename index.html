@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Components</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <template id="itemTmpl">
+    <style>
+      :host {
+        display: block;
+        font: 16px/1.4 system-ui;
+      }
+
+      li {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+      }
+
+      button.remove {
+        all: unset;
+        cursor: pointer;
+        padding: 4px 6px;
+      }
+
+      button.remove:hover {
+        background: #f3f3f3;
+        border-radius: 4px;
+      }
+
+      input[type="checkbox"] {
+        width: 1rem;
+        height: 1rem;
+      }
+
+      ::slotted(*) {
+        flex: 1 1 auto;
+      }
+
+      :host([done]) ::slotted(*) {
+        text-decoration: line-through;
+        opacity: .6;
+      }
+    </style>
+
+    <li>
+      <input type="checkbox" />
+      <slot></slot>
+      <button class="remove" aria-label="Delete task">✕</button>
+    </li>
+  </template>
+
+  <template id="listTmpl">
+    <style>
+      :host {
+        display: block;
+        width: min(100%, 400px);
+        font: 16px/1.4 system-ui;
+      }
+
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      form {
+        margin-top: 8px;
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      input[type="text"] {
+        flex: 1 1 auto;
+        padding: 6px 8px;
+      }
+
+      button.add {
+        padding: 6px 10px;
+        cursor: pointer;
+      }
+    </style>
+
+    <ul>
+      <slot></slot>
+    </ul>
+
+    <slot name="input-area">
+      <form id="add-form">
+        <input type="text" placeholder="New task…" required />
+        <button class="add">Add</button>
+      </form>
+    </slot>
+  </template>
+
+  <!-- doc start -->
+
+
+  <h1>The List</h1>
+  <hr>
+  <todo-list id="tasks">
+  </todo-list>
+
+
+  <script src="main.js"></script>
+</body>
+
+</html>
